@@ -7,7 +7,7 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.web.bind.annotation.*;
 import mwallpach.springboot.model.Product;
 import mwallpach.springboot.model.WarehouseData;
-import mwallpach.springboot.repository.*;
+import mwallpach.springboot.repository.WarehouseDataRepository;
 
 @SpringBootApplication
 @RestController
@@ -25,23 +25,18 @@ public class MongodbApplication implements CommandLineRunner {
 	public void run(String... args) throws Exception {
 	}
 
-	@PostMapping("/addProduct/{id}")
-	public WarehouseData addProductToWarehouse(@PathVariable String id, @RequestBody Product product) {
-		WarehouseData warehouse = warehouseDataRepository.findById(id).orElse(null);
-		if (warehouse != null) {
-			warehouse.addProduct(product);
-			return warehouseDataRepository.save(warehouse);
-		}
-		return null; // Warehouse not found
-	}
-
 	@GetMapping("/all")
 	public Iterable<WarehouseData> getAllWarehouses() {
 		return warehouseDataRepository.findAll();
 	}
 
+	@GetMapping("/{id}")
+	public WarehouseData getWarehouseById(@PathVariable String id) {
+		return warehouseDataRepository.findById(id).orElse(null);
+	}
+
 	@GetMapping("/{id}/products")
-	public Iterable<Product> getProductsByWarehouse(@PathVariable String id) {
+	public Iterable<Product> getProductsByWarehouseId(@PathVariable String id) {
 		WarehouseData warehouse = warehouseDataRepository.findById(id).orElse(null);
 		if (warehouse != null) {
 			return warehouse.getProducts();

@@ -1,14 +1,10 @@
 package mwallpach.springboot.model;
 
-import java.io.Serializable;
-import java.text.SimpleDateFormat;
-import java.util.Date;
-import org.springframework.data.annotation.Id;
+import java.util.Random;
 
-public class Product{
+public class Product {
 
-    @Id
-    private String ID;
+    private static final String[] PRODUCT_CATEGORIES = {"Getränk", "Lebensmittel", "Haushalt", "Elektronik", "Kleidung"};
 
     private String warehouseID;
     private String productID;
@@ -16,14 +12,10 @@ public class Product{
     private String productCategory;
     private double productQuantity;
 
-    /**
-     * Constructor
-     */
     public Product() {
     }
 
-    public Product(String warehouseID, String productID, String productName, String productCategory, double productQuantity ) {
-        super();
+    public Product(String warehouseID, String productID, String productName, String productCategory, double productQuantity) {
         this.warehouseID = warehouseID;
         this.productID = productID;
         this.productName = productName;
@@ -31,61 +23,38 @@ public class Product{
         this.productQuantity = productQuantity;
     }
 
-    public String getID() {
-        return ID;
-    }
-
-    public void setID(String ID) {
-        this.ID = ID;
-    }
-
-    public String getWarehouseID() {
-        return warehouseID;
-    }
-
-    public void setWarehouseID(String warehouseID) {
+    // Konstruktor, der zufällige Werte generiert
+    public Product(String warehouseID) {
         this.warehouseID = warehouseID;
+        this.productID = generateRandomProductID();
+        this.productName = "Product " + generateRandomNumber();
+        this.productCategory = PRODUCT_CATEGORIES[new Random().nextInt(PRODUCT_CATEGORIES.length)];
+        this.productQuantity = generateRandomQuantity();
     }
 
-    public String getProductID() {
-        return productID;
+    private static String generateRandomProductID() {
+        Random random = new Random();
+        return String.format("%02d-%06d", random.nextInt(100), random.nextInt(1000000));
     }
 
-    public void setProductID(String productID) {
-        this.productID = productID;
+    private static int generateRandomNumber() {
+        return new Random().nextInt(1000);
     }
 
-    public String getProductName() {
-        return productName;
+    private static double generateRandomQuantity() {
+        return new Random().nextDouble() * 1000; // Zufällige Menge zwischen 0 und 1000
     }
 
-    public void setProductName(String productName) {
-        this.productName = productName;
-    }
+    // Getter und Setter
 
-    public String getProductCategory() {
-        return productCategory;
-    }
-
-    public void setProductCategory(String productCategory) {
-        this.productCategory = productCategory;
-    }
-
-    public double getProductQuantity() {
-        return productQuantity;
-    }
-
-    public void setProductQuantity(double productQuantity) {
-        this.productQuantity = productQuantity;
-    }
-
-    /**
-     * Methods
-     */
     @Override
     public String toString() {
-        String info = String.format("Product Info: WarehouseID = %s, ProductID = %s, ProductName = %s, ProductCategory = %s, ProductQuantity = %4.1f",
-                warehouseID, productID, productName, productCategory, productQuantity );
-        return info;
+        return "Product{" +
+                "warehouseID='" + warehouseID + '\'' +
+                ", productID='" + productID + '\'' +
+                ", productName='" + productName + '\'' +
+                ", productCategory='" + productCategory + '\'' +
+                ", productQuantity=" + productQuantity +
+                '}';
     }
 }
