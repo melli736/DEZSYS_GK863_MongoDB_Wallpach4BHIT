@@ -9,6 +9,8 @@ import mwallpach.springboot.model.Product;
 import mwallpach.springboot.model.WarehouseData;
 import mwallpach.springboot.repository.WarehouseDataRepository;
 
+import java.util.Arrays;
+
 @SpringBootApplication
 @RestController
 @RequestMapping("/warehouse")
@@ -23,6 +25,24 @@ public class MongodbApplication implements CommandLineRunner {
 
 	@Override
 	public void run(String... args) throws Exception {
+		initializeDatabase();
+	}
+
+	private void initializeDatabase() {
+		WarehouseData warehouse1 = new WarehouseData();
+		warehouse1.setWarehouseName("Warehouse A");
+		warehouse1.setWarehouseID("1");
+
+		WarehouseData warehouse2 = new WarehouseData();
+		warehouse2.setWarehouseName("Warehouse B");
+		warehouse2.setWarehouseID("2");
+
+		for (int i = 0; i < 10; i++) {
+			warehouse1.addProduct(new Product("1"));
+			warehouse2.addProduct(new Product("2"));
+		}
+
+		warehouseDataRepository.saveAll(Arrays.asList(warehouse1, warehouse2));
 	}
 
 	@GetMapping("/all")
@@ -41,6 +61,6 @@ public class MongodbApplication implements CommandLineRunner {
 		if (warehouse != null) {
 			return warehouse.getProducts();
 		}
-		return null; // Warehouse not found
+		return null;
 	}
 }

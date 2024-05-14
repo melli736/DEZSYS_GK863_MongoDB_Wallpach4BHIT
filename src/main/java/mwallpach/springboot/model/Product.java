@@ -1,5 +1,7 @@
 package mwallpach.springboot.model;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
+
 import java.util.Random;
 
 public class Product {
@@ -7,6 +9,7 @@ public class Product {
     private static final String[] PRODUCT_CATEGORIES = {"Getränk", "Lebensmittel", "Haushalt", "Elektronik", "Kleidung"};
 
     private String warehouseID;
+    @JsonProperty("productID")
     private String productID;
     private String productName;
     private String productCategory;
@@ -23,7 +26,7 @@ public class Product {
         this.productQuantity = productQuantity;
     }
 
-    // Konstruktor, der zufällige Werte generiert
+    // Constructor that generates random values
     public Product(String warehouseID) {
         this.warehouseID = warehouseID;
         this.productID = generateRandomProductID();
@@ -45,7 +48,7 @@ public class Product {
         return new Random().nextDouble() * 1000; // Zufällige Menge zwischen 0 und 1000
     }
 
-    // Getter und Setter
+    // Getters and Setters
 
     @Override
     public String toString() {

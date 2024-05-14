@@ -1,39 +1,26 @@
 package mwallpach.springboot.model;
 
+import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Document;
 
-import java.text.SimpleDateFormat;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.List;
 
-import org.springframework.data.annotation.Id;
-
-@Document(collection = "warehouseData")
+@Document(collection = "warehouses")
 public class WarehouseData {
 
 	@Id
-	private String id;
+	private String warehouseID;
 	private String warehouseName;
-	private String timestamp;
-	private List<Product> products;
+	private List<Product> products = new ArrayList<>();
 
-	/**
-	 * Constructor
-	 */
-	public WarehouseData() {
-		this.products = new ArrayList<>();
-		this.timestamp = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss.SSS").format(new Date());
-	}
-
-	public void addProduct(Product product) {
-		this.products.add(product);
-	}
-
+	// Getter und Setter
 	public String getWarehouseID() {
-		return id;
+		return warehouseID;
 	}
 
 	public void setWarehouseID(String warehouseID) {
-		this.id = warehouseID;
+		this.warehouseID = warehouseID;
 	}
 
 	public String getWarehouseName() {
@@ -44,24 +31,15 @@ public class WarehouseData {
 		this.warehouseName = warehouseName;
 	}
 
-	public String getTimestamp() {
-		return timestamp;
-	}
-
-	public void setTimestamp(String timestamp) {
-		this.timestamp = timestamp;
-	}
-
 	public List<Product> getProducts() {
-		return this.products;
+		return products;
 	}
 
-	/**
-	 * Methods
-	 */
-	@Override
-	public String toString() {
-		String info = String.format("Warehouse Info: ID = %s, Name = %s, timestamp = %s", id, warehouseName, timestamp );
-		return info;
+	public void setProducts(List<Product> products) {
+		this.products = products;
+	}
+
+	public void addProduct(Product product) {
+		this.products.add(product);
 	}
 }
